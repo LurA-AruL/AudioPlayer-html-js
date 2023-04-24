@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>audio</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            /* display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; */
+        }
+        button{
+            padding: 5px;
+            background: transparent;
+            border: none;
+            border-radius: 10%;
+            color: rgb(211, 179, 73);
+            box-shadow:-1px -0.5px 1px 1px rgb(209, 149, 80);
+            cursor: pointer;
+        }
+        button:hover{
+            font-size: 9pt;
+        }
+        .audio_wrapper{
+            width: 100%;
+           text-align: center;
+
+        }
+        #display_area{
+            color:rgb(151, 26, 26)
+        }
+        audio{
+            width: 250px;
+            height: 35px;
+            margin: 0px 10px;
+            border-radius: 10px;
+        }
+        
+     audio::-webkit-media-controls-panel {
+     color: #a51818;
+     }
+     audio::-webkit-media-controls-play-button:hover {
+     color: blue;
+     }
+
+        .aduio_btn{
+            background-color: rgb(39, 39, 39);
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items:center;
+            justify-content: center;
+        }
+        #wave-wrapper{
+            width: 50px;
+            height: 100px;
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            visibility: hidden;
+            /* background-color: black; */
+        }
+        .bar{
+            width: 4px;
+            height: 20px;
+            border-radius: 10px;
+            background-color: aliceblue;
+            animation: movement 1.5s infinite;
+        }
+        @keyframes movement{
+            0%,100%{
+                height: 8px;
+
+            }
+            50%{
+                height: 50px;
+            }
+        }
+        .bar:nth-child(1){
+            background-color: aqua;
+            animation-delay: .8s;
+        }
+        .bar:nth-child(2){
+            background-color: red;
+            animation-delay: 1.2s;
+        }
+        .bar:nth-child(3){
+            background-color: rgb(0, 255, 98);
+            animation-delay: 0.8s;
+        }
+        .bar:nth-child(4){
+            background-color: rgb(15, 31, 126);
+            animation-delay: 1s;
+        }
+        .bar:nth-child(5){
+            background-color: rgb(44, 20, 90);
+            animation-delay: 0.7s;
+        }
+        .muBgImg{
+            /* background: url(); */
+            /* background-color: red; */
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="muBgImg">
+        <img id="wvBgImg" src="" width="100%" style="border-radius: 15px;opacity: 0.7;">
+        <div id="wave-wrapper">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </div>
+    <div class="audio_wrapper">
+        <div class="aduio_btn">
+            <button id="prev" onclick="prev()">prev</button>
+            <audio controls id="audio" ></audio>
+            <button id="next" onclick="next()">next</button>
+        </div>
+    </div>
+    
+
+    <div id="display_area">
+
+    </div>
+    <script>
+        let wvBgImg = document.getElementById('wvBgImg');
+        let waveWrapper = document.getElementById('wave-wrapper');
+        let disArea = document.getElementById('display_area');
+        let audio = document.getElementById('audio');
+        let nextbtn = document.getElementById('next');
+        let prevbtn = document.getElementById('prev');
+        let musicdleay = true;
+        const api = [{path:"Azhagu (From Pudhiya Mugam) (Male Version).mp3",img:"don.jfif"},
+                        {path:"Kannoram.mp3",img:"vathi coming.jfif"},
+                        {path:"Veerapandi Kotayyile (From Thiruda Thiruda).mp3",img:"vathi.jfif"},
+                        {path:"Rangasthalam Songs Download Mp3.mp3",img:"MP3-Hindi.jpg"},
+                        {path:"raja rani mp3 songs free-download.mp3",img:"Balagam.jpg"},
+                        {path:"Rangasthalam - Teaser Bgm.mp3",img:"Dhamki.jpg"},
+                        {path:"Rangasthalam.mp3",img:"Waltair-Veerayya-2022-Boss-Party-250x250-1.jpg"}];
+        let count = -1;
+        function next(){
+            ++count;
+             api.map((e,i) =>{
+                if(count == i){
+                    // console.log(e.path);
+                    // disArea.innerHTML = e.path;
+                    audio.setAttribute('src',"song/"+e.path);
+                    console.log(e.path);
+                    wvBgImg.setAttribute('src',"img/"+e.img);
+                    audio.setAttribute('autoplay','on'); 
+                        setTimeout(()=>{
+                        waveWrapper.style.visibility= "visible";
+
+                    },500);
+                    
+                    
+                }
+               
+
+                if(count == 0){
+                    // count= -1;
+                    prevbtn.style.display = "inline";
+                }
+                if(count == api.length-1){
+                    // count= -1;
+                    nextbtn.style.display = "none";
+                }
+                
+            }) 
+            console.log(audio);
+        }
+        function prev(){
+            --count;
+             api.map((e,i) =>{
+                if(count == i){
+                    console.log(e.path);
+                    // disArea.innerHTML = e.path;
+                    audio.setAttribute('src',"song/"+e.path);
+                    wvBgImg.setAttribute('src',"img/"+e.img)
+                    // audio.setAttribute('autoplay');
+                    
+                }
+                if(count == -2 || count == -1){
+                    prevbtn.style.display = "none"
+                }
+                if(count < api.length-1){
+                    // count= -1;
+                    nextbtn.style.display = "inline";
+                }
+            })       
+            console.log(audio);                   
+        }
+    </script>
+</body>
+</html>
